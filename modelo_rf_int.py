@@ -44,7 +44,7 @@ def interpol(df, col_x1, col_y1, col_x3, col_y3, col_t3, col_target):
 def validation(df_test: pd.DataFrame, df_predito: pd.DataFrame):
     x_real = df_test['x2']
     x_previsto = df_predito['x2']
-    rmse_x = mean_squared_error(x_real, x_previsto) ** 1 / 2
+    rmse_x = mean_squared_error(x_real, x_previsto) ** (1 / 2)
     _, _, r_value, _, _ = stats.linregress(x_real, x_previsto)
     r2_x = r_value*r_value
     mae_x = mean_absolute_error(x_real, x_previsto)
@@ -52,7 +52,7 @@ def validation(df_test: pd.DataFrame, df_predito: pd.DataFrame):
 
     y_real = df_test['y2']
     y_previsto = df_predito['y2']
-    rmse_y = mean_squared_error(y_real, y_previsto) ** 1 / 2
+    rmse_y = mean_squared_error(y_real, y_previsto) ** (1 / 2)
     _, _, r_value, _, _ = stats.linregress(y_real, y_previsto)
     r2_y = r_value*r_value
     mae_y = mean_absolute_error(y_real, y_previsto)
@@ -187,7 +187,7 @@ size = str(int(len(dados)/1000)) + "k"
 percentage_train = 0.8
 window_size=17
 model_choice = 1
-times = 5
+times = 10
 
 r2_interp = []
 mse_interp = []
