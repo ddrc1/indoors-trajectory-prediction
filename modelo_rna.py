@@ -33,7 +33,7 @@ def create_model():
 def validation(df_test: pd.DataFrame, df_predito: pd.DataFrame):
     x_real = df_test['x2']
     x_previsto = df_predito['x2']
-    rmse_x = mean_squared_error(x_real, x_previsto) ** 1 / 2
+    rmse_x = mean_squared_error(x_real, x_previsto) ** (1 / 2)
     _, _, r_value, _, _ = stats.linregress(x_real, x_previsto)
     r2_x = r_value*r_value
     mae_x = mean_absolute_error(x_real, x_previsto)
@@ -41,7 +41,7 @@ def validation(df_test: pd.DataFrame, df_predito: pd.DataFrame):
 
     y_real = df_test['y2']
     y_previsto = df_predito['y2']
-    rmse_y = mean_squared_error(y_real, y_previsto) ** 1 / 2
+    rmse_y = mean_squared_error(y_real, y_previsto) ** (1 / 2)
     _, _, r_value, _, _ = stats.linregress(y_real, y_previsto)
     r2_y = r_value*r_value
     mae_y = mean_absolute_error(y_real, y_previsto)
@@ -76,12 +76,12 @@ def desnormalize(row):
     return {'x': desnorm_x, 'y': desnorm_y}
 ########PARA RODAR EM GPU, COMENTAR ESTE CÓDIGO########
 os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-
+#######################################################
 if tf.test.gpu_device_name():
     print('GPU found')
 else:
     print("No GPU found")
-#######################################################
+
 
 min_x = dados.x.min()
 max_x = dados.x.max()
