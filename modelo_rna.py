@@ -219,7 +219,6 @@ for w in range(3, 33):
     rmse_exec = {'x': [], 'y': []}
     mae_exec = {'x': [], 'y': []}
     
-    max_t = w - 1
     dados_norm = dados.apply(lambda row: normalize(row), axis=1)
     dados_norm = pd.DataFrame(dados_norm.tolist())
     
