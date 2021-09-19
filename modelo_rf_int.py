@@ -177,10 +177,6 @@ dados = pd.read_csv(f"./backend/datasets/{file}", sep=',', usecols=['x', 'y'])
 
 dados['time'] = [i for i in range(len(dados))]
 
-dados['x'] = dados['x'].astype(np.float32)
-dados['y'] = dados['y'].astype(np.float32)
-dados['time'] = dados['time'].astype(np.int32)
-
 dados = dados[:50000]
 size = str(int(len(dados)/1000)) + "k"
 
