@@ -168,19 +168,18 @@ def splitData(df: pd.DataFrame, p_train: float, window_size = 3):
                 time_end_train.append(jump)
                 
         elif i >= len(df) - (len(df) * (1-p_train)):
-            for j in reversed(range(2, window_size)):
-                for k in range(1, jump):
-                    x_start_test.append(df.loc[i, "x"])
-                    y_start_test.append(df.loc[i, "y"])
-                    time_start_test.append(0)
+            for k in range(1, jump):
+                x_start_test.append(df.loc[i, "x"])
+                y_start_test.append(df.loc[i, "y"])
+                time_start_test.append(0)
 
-                    x_real_test.append(df.loc[i + k, "x"])
-                    y_real_test.append(df.loc[i + k, "y"])
-                    time_real_test.append(k)
+                x_real_test.append(df.loc[i + k, "x"])
+                y_real_test.append(df.loc[i + k, "y"])
+                time_real_test.append(k)
 
-                    x_end_test.append(df.loc[i + jump, "x"])
-                    y_end_test.append(df.loc[i + jump, "y"])
-                    time_end_test.append(jump)
+                x_end_test.append(df.loc[i + jump, "x"])
+                y_end_test.append(df.loc[i + jump, "y"])
+                time_end_test.append(jump)
 
     feat_train_data['x1'] = x_start_train
     feat_train_data['y1'] = y_start_train
