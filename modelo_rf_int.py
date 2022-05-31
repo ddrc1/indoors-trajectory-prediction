@@ -1,22 +1,13 @@
 import gc
-from sklearn.linear_model import LinearRegression
 from sklearn.multioutput import MultiOutputRegressor
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import *
 import numpy as np
 import pandas as pd
 from scipy import stats
 
-def getModel(model_choice: int = 0):
-    if model_choice == 0:
-        return LinearRegression()
-    if model_choice == 1:
-        return RandomForestRegressor(n_jobs=12)
-    if model_choice == 2:
-        return GradientBoostingRegressor()
-    else:
-        return SVR()
+def getModel():
+    return RandomForestRegressor() # Se possivel, use o parametro n_jobs
 
 
 def interpol(df, col_x1, col_y1, col_x3, col_y3, col_t3, col_target):
@@ -181,7 +172,6 @@ size = str(int(len(dados)/1000)) + "k"
 
 percentage_train = 0.8
 window_size=17
-model_choice = 1
 times = 10
 
 r2_interp = []
@@ -195,7 +185,7 @@ rmse_model = []
 mae_model = []
 path_rf = f"./validacao/{env}/random_forest"
 path_il = f"./validacao/{env}/interpolacao"
-for w in range(3, 33):
+for w in range(3, window_size):
     
     r2_exec = {'x': [], 'y': []}
     mse_exec = {'x': [], 'y': []}
@@ -209,7 +199,7 @@ for w in range(3, 33):
         print(w, f"- {i + 1}ª vez")
 
         print("modelando...")
-        model = MultiOutputRegressor(getModel(model_choice)).fit(df_feat_train, df_target_train)
+        model = MultiOutputRegressor(getModel()).fit(df_feat_train, df_target_train)
         #pickle.dump(model, open(f'./modelos/{env}/rf/model_d{w-2}.sav', 'wb'))
 
         df_interpolacao = interpol(df_feat_test, "x1", "y1", "x3", "y3", "t3", "t2")
@@ -238,6 +228,7 @@ for w in range(3, 33):
         del model
         del df_predito
         gc.collect()
+        
     del df_feat_train
     del df_target_train
     del df_feat_test
@@ -248,12 +239,10 @@ for w in range(3, 33):
     rmse_interp = [{'x': rmse_x, 'y': rmse_y}]
     mae_interp = [{'x': mae_x, 'y': mae_y}]
     
-    
     pd.DataFrame(r2_exec).to_csv(f"{path_rf}/r2_{size}_d{w-2}.csv")
     pd.DataFrame(mse_exec).to_csv(f"{path_rf}/mse_{size}_d{w-2}.csv")
     pd.DataFrame(rmse_exec).to_csv(f"{path_rf}/rmse_{size}_d{w-2}.csv")
     pd.DataFrame(mae_exec).to_csv(f"{path_rf}/mae_{size}_d{w-2}.csv")
-    
     
     pd.DataFrame(r2_interp).to_csv(f"{path_il}/r2_{size}_d{w-2}.csv")
     pd.DataFrame(mse_interp).to_csv(f"{path_il}/mse_{size}_d{w-2}.csv")
